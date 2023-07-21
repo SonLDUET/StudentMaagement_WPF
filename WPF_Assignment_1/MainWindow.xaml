@@ -1,0 +1,198 @@
+﻿<Window
+    x:Class="WPF_Assignment_1.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WPF_Assignment_1"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Quản lý học sinh"
+    Width="800"
+    Height="480"
+    MinWidth="700"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <ResourceDictionary Source="Style_Resource.xaml" />
+    </Window.Resources>
+    <StackPanel x:Name="container" DataContext="{StaticResource mainVM}">
+        <Grid x:Name="header" Height="120">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <Label Content="Nhập tên" />
+                    <TextBox
+                        x:Name="name_filter"
+                        Style="{StaticResource txbl_style}"
+                        Text="{Binding SearchName, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel Grid.Row="1">
+                    <Label Content="Nhập Địa chỉ" />
+                    <TextBox
+                        x:Name="address_filter"
+                        Style="{StaticResource txbl_style}"
+                        Text="{Binding SearchAddress, Mode=TwoWay}" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <Label Content="Chọn giới tính" />
+                    <ComboBox
+                        x:Name="gender_filter"
+                        Style="{StaticResource combobox_style}"
+                        Text="{Binding SearchGender, Mode=TwoWay}">
+                        <ComboBoxItem>Nam</ComboBoxItem>
+                        <ComboBoxItem>Nữ</ComboBoxItem>
+                        <ComboBoxItem>Không muốn trả lời</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="Date_picker_start" Grid.Column="0">
+                        <Label Content="Ngày sinh bắt đầu" />
+                        <DatePicker SelectedDate="{Binding StartDate}" Style="{StaticResource DatePicker_style}" />
+                    </StackPanel>
+                    <StackPanel x:Name="Date_picker_stop" Grid.Column="1">
+                        <Label Content="Ngày sinh kết thúc" />
+                        <DatePicker SelectedDate="{Binding EndDate}" Style="{StaticResource DatePicker_style}" />
+                    </StackPanel>
+                    <StackPanel />
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Button
+                        x:Name="save_all"
+                        HorizontalAlignment="Right"
+                        Command="{Binding SaveToFileCmd}"
+                        Style="{StaticResource btn_style}">
+                        Save
+                    </Button>
+                    <Button
+                        x:Name="Search"
+                        Margin="0,0,145,5"
+                        HorizontalAlignment="Right"
+                        Command="{Binding SearchCmd, Mode=TwoWay}"
+                        Style="{StaticResource btn_style}">
+                        Search
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Button
+                        Margin="0,0,50,15"
+                        HorizontalAlignment="Right"
+                        Command="{Binding ShowAllData}"
+                        Content="Show all data"
+                        Style="{StaticResource btn_style}" />
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid
+            Height="30"
+            Margin="10"
+            Background="#ddd">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                FontSize="15">
+                Danh sách học sinh
+            </TextBlock>
+            <Button
+                x:Name="add"
+                Grid.Column="1"
+                Width="90"
+                Margin="0"
+                HorizontalAlignment="Right"
+                Command="{Binding AddCmd}"
+                Style="{StaticResource btn_style}">
+                Thêm học sinh
+            </Button>
+        </Grid>
+        <Grid>
+            <DataGrid
+                x:Name="data_table"
+                Height="260"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                ItemsSource="{Binding StudentsToDisplay, UpdateSourceTrigger=PropertyChanged}"
+                LoadingRow="DataGrid_LoadingRow"
+                ScrollViewer.CanContentScroll="True"
+                VerticalScrollBarVisibility="Visible">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="0.2*"
+                        Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                        Header="Họ tên" />
+                    <DataGridTemplateColumn Width="0.2*" Header="Giới tính">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox
+                                    Margin="5"
+                                    SelectedItem="{Binding Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <ComboBoxItem>Nam</ComboBoxItem>
+                                    <ComboBoxItem>Nữ</ComboBoxItem>
+                                    <ComboBoxItem>Không muốn trả lời</ComboBoxItem>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn
+                        Width="0.3*"
+                        Binding="{Binding Address, UpdateSourceTrigger=PropertyChanged}"
+                        Header="Địa chỉ" />
+                    <DataGridTemplateColumn Width="0.2*" Header="Ngày sinh">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <DatePicker SelectedDate="{Binding DOB, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="0.1*" Header="Thao tác">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Button
+                                        Grid.Column="0"
+                                        Command="{Binding DataContext.ModifyCmd, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                        CommandParameter="{Binding}"
+                                        Content="Sửa" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Command="{Binding DataContext.DeleteCmd, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                        CommandParameter="{Binding}"
+                                        Content="Xóa" />
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </StackPanel>
+</Window>

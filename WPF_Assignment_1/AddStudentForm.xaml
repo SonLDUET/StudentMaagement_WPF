@@ -1,0 +1,55 @@
+﻿<Window x:Class="WPF_Assignment_1.AddStudentForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_Assignment_1"
+        mc:Ignorable="d"
+        Title="Thêm học sinh" Height="250" Width="450"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary Source="Style_Resource.xaml"></ResourceDictionary>
+    </Window.Resources>
+    <StackPanel DataContext="{StaticResource AddVM}" Width="400">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Content="Nhập tên" Grid.Column="0"/>
+            <TextBox Width="auto" Text="{Binding InputName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0 5 10 5" Grid.Column="1" Style="{StaticResource txbl_style}"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Content="Nhập giới tính" Grid.Column="0"/>
+            <ComboBox Width="auto" Text="{Binding InputGender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0 5 10 5" Grid.Column="1" Style="{StaticResource combobox_style}">
+                <ComboBoxItem>Nam</ComboBoxItem>
+                <ComboBoxItem>Nữ</ComboBoxItem>
+                <ComboBoxItem>Không muốn trả lời</ComboBoxItem>
+            </ComboBox>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Content="Nhập địa chỉ" Grid.Column="0"/>
+            <TextBox Width="auto" Text="{Binding InputAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0 5 10 5" Grid.Column="1" Style="{StaticResource txbl_style}"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="46*"></ColumnDefinition>
+                <ColumnDefinition Width="101*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Nhập ngày sinh" Grid.Column="0"/>
+            <DatePicker Width="auto" SelectedDate="{Binding InputDOB, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayDate="1/1/1970" DisplayDateStart="1970/1/1" Margin="92,5,10,5" Style="{StaticResource DatePicker_style}" Grid.ColumnSpan="3"/>
+        </Grid>
+        <Grid>
+            <Button Command="{Binding SaveAdd}" Style="{StaticResource btn_style}" HorizontalAlignment="Right" Margin="0 12 12 5">Thêm</Button>
+        </Grid>
+    </StackPanel>
+</Window>
